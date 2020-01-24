@@ -14,6 +14,8 @@ inspecode:
             num-issues: 22
 
     htmlhint:       ## for HTML
+        input:
+          - src/**/*.cshtml
         thresholds:
             num-issues: 999
 
@@ -29,7 +31,7 @@ inspecode:
     prettier:       ## for HTML
         auto-fix: true
         thresholds:
-            num-issues: 999
+            num-issues: 5
 
     stylecop:       ## for C#
       - ignore:
@@ -45,9 +47,11 @@ inspecode:
     stylelint:      ## for HTML
         auto-fix: true
         thresholds:
-            num-issues: 999
+            num-issues: 0
 
     tidy:           ## for HTML
+        input:
+          - src/**/*.cshtml
         auto-fix: true
         thresholds:
             num-issues: 999
