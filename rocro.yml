@@ -3,34 +3,60 @@ inspecode:
     astyle:         ## for C#
         auto-fix: true
         thresholds:
-            num-issues: 999
+            num-issues: 533
 
     cpd:            ## for C#
         thresholds:
-            num-issues: 999
+            num-issues: 18
 
-    jscpd:          ## for C#
+    grep:           ## for any-languages
+        thresholds:
+            num-issues: 22
+
+    htmlhint:       ## for HTML
         thresholds:
             num-issues: 999
+
+    jscpd:          ## for C#, HTML
+        thresholds:
+            num-issues: 132
 
     misspell:       ## for any-languages
         auto-fix: true
         thresholds:
-            num-issues: 999
-    
-    grep:           ## for any-languages
+            num-issues: 0
+
+    prettier:       ## for HTML
+        auto-fix: true
         thresholds:
             num-issues: 999
 
     stylecop:       ## for C#
+      - ignore:
+          - src/Core/
+          - src/Icons/
+        thresholds:
+            num-issues: 999
+      - input:
+          - src/Icons/
+        thresholds:
+            num-issues: 999
+
+    stylelint:      ## for HTML
+        auto-fix: true
+        thresholds:
+            num-issues: 999
+
+    tidy:           ## for HTML
+        auto-fix: true
         thresholds:
             num-issues: 999
 
     uncrustify:     ## for C#
         auto-fix: true
         thresholds:
-            num-issues: 999
+            num-issues: 534
 
-    unused:         ## for C#
+    unused:         ## for C#, HTML
         thresholds:
-            num-issues: 999
+            num-issues: 193
