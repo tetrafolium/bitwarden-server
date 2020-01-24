@@ -33,14 +33,14 @@ inspecode:
 
     stylecop:       ## for C#
       - ignore:
-          - src/Core/
+          - src/Core/           # too many issues
           - src/Icons/
         thresholds:
-            num-issues: 999
+            num-issues: 543
       - input:
           - src/Icons/
         thresholds:
-            num-issues: 999
+            num-issues: 485
 
     stylelint:      ## for HTML
         auto-fix: true
