@@ -23,6 +23,12 @@ inspecode:
         thresholds:
             num-issues: 132
 
+    jshint:
+        options:
+            --extra-ext: ".html"
+        thresholds:
+            num-issues: 999
+
     misspell:       ## for any-languages
         auto-fix: true
         thresholds:
