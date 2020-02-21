@@ -24,9 +24,9 @@ inspecode:
     jshint:
         options:
             --extra-ext:
-              - ".html"         # (HTML) ... no files in this repo
-              - ".cshtml"       # (HTML+Razor)
-        thresholds: { num-issues: 12 }
+            -   ".html"         # (HTML) ... no files in this repo
+            #-  ".cshtml"       # (HTML+Razor) ... not supported
+        thresholds: { num-issues: 12 }  # in JavaScript
 
     misspell:       ## for any-languages
         auto-fix: true
