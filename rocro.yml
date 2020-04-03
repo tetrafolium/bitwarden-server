@@ -7,6 +7,9 @@ inspecode:
     cpd:            ## for C#
         thresholds: { num-issues: 18 }
 
+    fossology:
+        thresholds: { num-issues: 999 }
+
     grep:           ## for any-languages
         thresholds: { num-issues: 22 }
 
