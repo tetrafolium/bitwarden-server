@@ -46,7 +46,7 @@ inspecode:
         thresholds: { num-issues: 543 }
       - input:
           - src/Icons/
-        thresholds: { num-issues: 485 }
+        thresholds: { num-issues: 479 }
 
     stylelint:      ## for HTML
         auto-fix: true
