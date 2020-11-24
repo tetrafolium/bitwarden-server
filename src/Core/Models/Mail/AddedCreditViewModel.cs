@@ -2,9 +2,9 @@
 {
 public class AddedCreditViewModel : BaseMailModel
 {
-    public decimal Amount {
-        get;
-        set;
-    }
+public decimal Amount {
+	get;
+	set;
+}
 }
 }

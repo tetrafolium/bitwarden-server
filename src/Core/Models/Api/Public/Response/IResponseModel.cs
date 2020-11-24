@@ -2,8 +2,8 @@
 {
 public interface IResponseModel
 {
-    string Object {
-        get;
-    }
+string Object {
+	get;
+}
 }
 }
