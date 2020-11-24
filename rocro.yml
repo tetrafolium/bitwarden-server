@@ -5,7 +5,7 @@ inspecode:
         thresholds: { num-issues: 533 }
 
     cpd:            ## for C#
-        thresholds: { num-issues: 18 }
+        thresholds: { num-issues: 25 }
 
     fossology:
         thresholds: { num-issues: 7 }
@@ -27,8 +27,8 @@ inspecode:
     jshint:
         options:
             --extra-ext:
-            -   ".html"         # (HTML) ... no files in this repo
-            #-  ".cshtml"       # (HTML+Razor) ... not supported
+              - ".html"         # (HTML) ... no files in this repo
+              # - ".cshtml"     # (HTML+Razor) ... not supported
         thresholds: { num-issues: 12 }  # in JavaScript
 
     misspell:       ## for any-languages
