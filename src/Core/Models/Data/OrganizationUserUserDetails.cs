@@ -5,54 +5,87 @@ using Newtonsoft.Json;
 
 namespace Bit.Core.Models.Data
 {
-    public class OrganizationUserUserDetails : IExternal, ITwoFactorProvidersUser
+public class OrganizationUserUserDetails : IExternal, ITwoFactorProvidersUser
+{
+    private Dictionary<TwoFactorProviderType, TwoFactorProvider> _twoFactorProviders;
+
+    public Guid Id {
+        get;
+        set;
+    }
+    public Guid OrganizationId {
+        get;
+        set;
+    }
+    public Guid? UserId {
+        get;
+        set;
+    }
+    public string Name {
+        get;
+        set;
+    }
+    public string Email {
+        get;
+        set;
+    }
+    public string TwoFactorProviders {
+        get;
+        set;
+    }
+    public bool? Premium {
+        get;
+        set;
+    }
+    public OrganizationUserStatusType Status {
+        get;
+        set;
+    }
+    public OrganizationUserType Type {
+        get;
+        set;
+    }
+    public bool AccessAll {
+        get;
+        set;
+    }
+    public string ExternalId {
+        get;
+        set;
+    }
+
+    public Dictionary<TwoFactorProviderType, TwoFactorProvider> GetTwoFactorProviders()
     {
-        private Dictionary<TwoFactorProviderType, TwoFactorProvider> _twoFactorProviders;
-
-        public Guid Id { get; set; }
-        public Guid OrganizationId { get; set; }
-        public Guid? UserId { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string TwoFactorProviders { get; set; }
-        public bool? Premium { get; set; }
-        public OrganizationUserStatusType Status { get; set; }
-        public OrganizationUserType Type { get; set; }
-        public bool AccessAll { get; set; }
-        public string ExternalId { get; set; }
-
-        public Dictionary<TwoFactorProviderType, TwoFactorProvider> GetTwoFactorProviders()
+        if(string.IsNullOrWhiteSpace(TwoFactorProviders))
         {
-            if(string.IsNullOrWhiteSpace(TwoFactorProviders))
-            {
-                return null;
-            }
-
-            try
-            {
-                if(_twoFactorProviders == null)
-                {
-                    _twoFactorProviders =
-                        JsonConvert.DeserializeObject<Dictionary<TwoFactorProviderType, TwoFactorProvider>>(
-                            TwoFactorProviders);
-                }
-
-                return _twoFactorProviders;
-            }
-            catch(JsonSerializationException)
-            {
-                return null;
-            }
+            return null;
         }
 
-        public Guid? GetUserId()
+        try
         {
-            return UserId;
-        }
+            if(_twoFactorProviders == null)
+            {
+                _twoFactorProviders =
+                    JsonConvert.DeserializeObject<Dictionary<TwoFactorProviderType, TwoFactorProvider>>(
+                        TwoFactorProviders);
+            }
 
-        public bool GetPremium()
+            return _twoFactorProviders;
+        }
+        catch(JsonSerializationException)
         {
-            return Premium.GetValueOrDefault(false);
+            return null;
         }
     }
+
+    public Guid? GetUserId()
+    {
+        return UserId;
+    }
+
+    public bool GetPremium()
+    {
+        return Premium.GetValueOrDefault(false);
+    }
+}
 }
