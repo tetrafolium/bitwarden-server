@@ -4,12 +4,13 @@ inspecode:
 
     stylecop:
       - ignore:
+          - src/Core/   # too many issues
           - src/I*/
           - util/
         thresholds: {num-issues: 999}
       - input:
           - src/I*/
-        thresholds: {num-issues: 999}
+        thresholds: {num-issues: 532}
       - input:
           - util/
-        thresholds: {num-issues: 999}
+        thresholds: {num-issues: 682}
