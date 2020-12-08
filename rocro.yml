@@ -1,75 +1,15 @@
 inspecode:
 
-  global:
-
-  tasks:
-
   tools:
 
-    astyle:         ## for C#
-      auto-fix: true
-      thresholds: { num-issues: 533 }
-
-    cpd:            ## for C#
-      thresholds: { num-issues: 25 }
-
-    fossology:
-      thresholds: { num-issues: 7 }
-
-    grep:           ## for any-languages
-      thresholds: { num-issues: 22 }
-
-    ##------------------------------------------------------------------------
-    ## "*.cshtml" (HTML+Razor) files are there, but no ".html" files.
-    ##------------------------------------------------------------------------
-    # htmlhint:       ## for HTML
-    #   input:
-    #     - src/**/*.cshtml     # (HTML+Razor) ... no effected, because unknown suffix
-    #   thresholds: { num-issues: 0 }
-
-    jscpd:          ## for C#, HTML
-      thresholds: { num-issues: 132 }
-
-    jshint:
-      options:
-        --extra-ext:
-          - ".html"         # (HTML) ... no files in this repo
-          # - ".cshtml"     # (HTML+Razor) ... not supported
-      thresholds: { num-issues: 12 }  # in JavaScript
-
-    misspell:       ## for any-languages
-      auto-fix: true
-      thresholds: { num-issues: 0 }
-
-    prettier:       ## for HTML
-      auto-fix: true
-      thresholds: { num-issues: 5 }
-
-    stylecop:       ## for C#
+    stylecop:
       - ignore:
-          - src/Core/           # too many issues
-          - src/Icons/
-        thresholds: { num-issues: 543 }
+          - src/I*/
+          - util/
+        thresholds: {num-issues: 999}
       - input:
-          - src/Icons/
-        thresholds: { num-issues: 479 }
-
-    stylelint:      ## for HTML
-      auto-fix: true
-      thresholds: { num-issues: 0 }
-
-    ##------------------------------------------------------------------------
-    ## "*.cshtml" (HTML+Razor) files are there, but no ".html" files.
-    ##------------------------------------------------------------------------
-    # tidy:           ## for HTML
-    #   input:
-    #     - src/**/*.cshtml     # (HTML+Razor) ... no effected, because unknown suffix
-    #   auto-fix: true
-    #   thresholds: { num-issues: 0 }
-
-    uncrustify:     ## for C#
-      auto-fix: true
-      thresholds: { num-issues: 534 }
-
-    unused:         ## for C#, HTML
-      thresholds: { num-issues: 193 }
+          - src/I*/
+        thresholds: {num-issues: 999}
+      - input:
+          - util/
+        thresholds: {num-issues: 999}
