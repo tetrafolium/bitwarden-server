@@ -4,22 +4,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Billing.Controllers
 {
-    public class HomeController : Controller
+public class HomeController : Controller
+{
+    [HttpGet("~/alive")]
+    [HttpGet("~/now")]
+    [AllowAnonymous]
+    public DateTime GetAlive()
     {
-        [HttpGet("~/alive")]
-        [HttpGet("~/now")]
-        [AllowAnonymous]
-        public DateTime GetAlive()
-        {
-            return DateTime.UtcNow;
-        }
-
-        /*
-        [Authorize]
-        public IActionResult Index()
-        {
-            return View();
-        }
-        */
+        return DateTime.UtcNow;
     }
+
+    /*
+    [Authorize]
+    public IActionResult Index()
+    {
+        return View();
+    }
+    */
+}
 }

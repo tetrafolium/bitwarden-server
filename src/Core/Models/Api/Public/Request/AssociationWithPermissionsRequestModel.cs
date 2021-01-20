@@ -2,15 +2,15 @@
 
 namespace Bit.Core.Models.Api.Public
 {
-    public class AssociationWithPermissionsRequestModel : AssociationWithPermissionsBaseModel
+public class AssociationWithPermissionsRequestModel : AssociationWithPermissionsBaseModel
+{
+    public SelectionReadOnly ToSelectionReadOnly()
     {
-        public SelectionReadOnly ToSelectionReadOnly()
+        return new SelectionReadOnly
         {
-            return new SelectionReadOnly
-            {
-                Id = Id.Value,
-                ReadOnly = ReadOnly.Value
-            };
-        }
+            Id = Id.Value,
+            ReadOnly = ReadOnly.Value
+        };
     }
+}
 }

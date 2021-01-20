@@ -10,39 +10,39 @@ using Bit.Core.Enums;
 
 namespace Bit.Core.Repositories.SqlServer
 {
-    public class PolicyRepository : Repository<Policy, Guid>, IPolicyRepository
+public class PolicyRepository : Repository<Policy, Guid>, IPolicyRepository
+{
+    public PolicyRepository(GlobalSettings globalSettings)
+        : this(globalSettings.SqlServer.ConnectionString, globalSettings.SqlServer.ReadOnlyConnectionString)
+    { }
+
+    public PolicyRepository(string connectionString, string readOnlyConnectionString)
+        : base(connectionString, readOnlyConnectionString)
+    { }
+    public async Task<Policy> GetByOrganizationIdTypeAsync(Guid organizationId, PolicyType type)
     {
-        public PolicyRepository(GlobalSettings globalSettings)
-            : this(globalSettings.SqlServer.ConnectionString, globalSettings.SqlServer.ReadOnlyConnectionString)
-        { }
-
-        public PolicyRepository(string connectionString, string readOnlyConnectionString)
-            : base(connectionString, readOnlyConnectionString)
-        { }
-        public async Task<Policy> GetByOrganizationIdTypeAsync(Guid organizationId, PolicyType type)
+        using(var connection = new SqlConnection(ConnectionString))
         {
-            using(var connection = new SqlConnection(ConnectionString))
-            {
-                var results = await connection.QueryAsync<Policy>(
-                    $"[{Schema}].[{Table}_ReadByOrganizationIdType]",
-                    new { OrganizationId = organizationId, Type = (byte)type },
-                    commandType: CommandType.StoredProcedure);
+            var results = await connection.QueryAsync<Policy>(
+                              $"[{Schema}].[{Table}_ReadByOrganizationIdType]",
+                              new { OrganizationId = organizationId, Type = (byte)type },
+                              commandType: CommandType.StoredProcedure);
 
-                return results.SingleOrDefault();
-            }
-        }
-
-        public async Task<ICollection<Policy>> GetManyByOrganizationIdAsync(Guid organizationId)
-        {
-            using(var connection = new SqlConnection(ConnectionString))
-            {
-                var results = await connection.QueryAsync<Policy>(
-                    $"[{Schema}].[{Table}_ReadByOrganizationId]",
-                    new { OrganizationId = organizationId },
-                    commandType: CommandType.StoredProcedure);
-
-                return results.ToList();
-            }
+            return results.SingleOrDefault();
         }
     }
+
+    public async Task<ICollection<Policy>> GetManyByOrganizationIdAsync(Guid organizationId)
+    {
+        using(var connection = new SqlConnection(ConnectionString))
+        {
+            var results = await connection.QueryAsync<Policy>(
+                              $"[{Schema}].[{Table}_ReadByOrganizationId]",
+                              new { OrganizationId = organizationId },
+                              commandType: CommandType.StoredProcedure);
+
+            return results.ToList();
+        }
+    }
+}
 }

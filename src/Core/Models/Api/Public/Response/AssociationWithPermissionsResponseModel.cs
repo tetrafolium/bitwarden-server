@@ -3,16 +3,16 @@ using Bit.Core.Models.Data;
 
 namespace Bit.Core.Models.Api.Public
 {
-    public class AssociationWithPermissionsResponseModel : AssociationWithPermissionsBaseModel
+public class AssociationWithPermissionsResponseModel : AssociationWithPermissionsBaseModel
+{
+    public AssociationWithPermissionsResponseModel(SelectionReadOnly selection)
     {
-        public AssociationWithPermissionsResponseModel(SelectionReadOnly selection)
+        if(selection == null)
         {
-            if(selection == null)
-            {
-                throw new ArgumentNullException(nameof(selection));
-            }
-            Id = selection.Id;
-            ReadOnly = selection.ReadOnly;
+            throw new ArgumentNullException(nameof(selection));
         }
+        Id = selection.Id;
+        ReadOnly = selection.ReadOnly;
     }
+}
 }

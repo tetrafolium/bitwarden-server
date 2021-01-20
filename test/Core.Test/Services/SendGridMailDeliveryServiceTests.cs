@@ -5,25 +5,25 @@ using Xunit;
 
 namespace Bit.Core.Test.Services
 {
-    public class SendGridMailDeliveryServiceTests
+public class SendGridMailDeliveryServiceTests
+{
+    private readonly SendGridMailDeliveryService _sut;
+
+    private readonly GlobalSettings _globalSettings;
+
+    public SendGridMailDeliveryServiceTests()
     {
-        private readonly SendGridMailDeliveryService _sut;
+        _globalSettings = new GlobalSettings();
 
-        private readonly GlobalSettings _globalSettings;
-
-        public SendGridMailDeliveryServiceTests()
-        {
-            _globalSettings = new GlobalSettings();
-
-            _sut = new SendGridMailDeliveryService(_globalSettings);
-        }
-
-        // Remove this test when we add actual tests. It only proves that
-        // we've properly constructed the system under test.
-        [Fact(Skip = "Needs additional work")]
-        public void ServiceExists()
-        {
-            Assert.NotNull(_sut);
-        }
+        _sut = new SendGridMailDeliveryService(_globalSettings);
     }
+
+    // Remove this test when we add actual tests. It only proves that
+    // we've properly constructed the system under test.
+    [Fact(Skip = "Needs additional work")]
+    public void ServiceExists()
+    {
+        Assert.NotNull(_sut);
+    }
+}
 }

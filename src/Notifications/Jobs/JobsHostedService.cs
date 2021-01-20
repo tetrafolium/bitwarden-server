@@ -9,32 +9,32 @@ using Quartz;
 
 namespace Bit.Notifications.Jobs
 {
-    public class JobsHostedService : BaseJobsHostedService
+public class JobsHostedService : BaseJobsHostedService
+{
+    public JobsHostedService(
+        IServiceProvider serviceProvider,
+        ILogger<JobsHostedService> logger,
+        ILogger<JobListener> listenerLogger)
+        : base(serviceProvider, logger, listenerLogger) { }
+
+    public override async Task StartAsync(CancellationToken cancellationToken)
     {
-        public JobsHostedService(
-            IServiceProvider serviceProvider,
-            ILogger<JobsHostedService> logger,
-            ILogger<JobListener> listenerLogger)
-            : base(serviceProvider, logger, listenerLogger) { }
+        var everyFiveMinutesTrigger = TriggerBuilder.Create()
+                                      .StartNow()
+                                      .WithCronSchedule("0 */30 * * * ?")
+                                      .Build();
 
-        public override async Task StartAsync(CancellationToken cancellationToken)
+        Jobs = new List<Tuple<Type, ITrigger>>
         {
-            var everyFiveMinutesTrigger = TriggerBuilder.Create()
-                .StartNow()
-                .WithCronSchedule("0 */30 * * * ?")
-                .Build();
+            new Tuple<Type, ITrigger>(typeof(LogConnectionCounterJob), everyFiveMinutesTrigger)
+        };
 
-            Jobs = new List<Tuple<Type, ITrigger>>
-            {
-                new Tuple<Type, ITrigger>(typeof(LogConnectionCounterJob), everyFiveMinutesTrigger)
-            };
-
-            await base.StartAsync(cancellationToken);
-        }
-
-        public static void AddJobsServices(IServiceCollection services)
-        {
-            services.AddTransient<LogConnectionCounterJob>();
-        }
+        await base.StartAsync(cancellationToken);
     }
+
+    public static void AddJobsServices(IServiceCollection services)
+    {
+        services.AddTransient<LogConnectionCounterJob>();
+    }
+}
 }

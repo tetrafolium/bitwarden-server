@@ -1,7 +1,9 @@
 ﻿namespace Bit.Core.Models
 {
-    public interface IExternal
-    {
-        string ExternalId { get; }
+public interface IExternal
+{
+    string ExternalId {
+        get;
     }
+}
 }

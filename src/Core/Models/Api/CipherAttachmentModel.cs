@@ -3,19 +3,25 @@ using Bit.Core.Utilities;
 
 namespace Bit.Core.Models.Api
 {
-    public class CipherAttachmentModel
-    {
-        public CipherAttachmentModel() { }
+public class CipherAttachmentModel
+{
+    public CipherAttachmentModel() { }
 
-        public CipherAttachmentModel(CipherAttachment.MetaData data)
-        {
-            FileName = data.FileName;
-            Key = data.Key;
-        }
-        
-        [EncryptedStringLength(1000)]
-        public string FileName { get; set; }
-        [EncryptedStringLength(1000)]
-        public string Key { get; set; }
+    public CipherAttachmentModel(CipherAttachment.MetaData data)
+    {
+        FileName = data.FileName;
+        Key = data.Key;
     }
+
+    [EncryptedStringLength(1000)]
+    public string FileName {
+        get;
+        set;
+    }
+    [EncryptedStringLength(1000)]
+    public string Key {
+        get;
+        set;
+    }
+}
 }

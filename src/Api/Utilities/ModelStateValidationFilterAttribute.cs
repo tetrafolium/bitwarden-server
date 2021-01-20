@@ -6,34 +6,34 @@ using System.Linq;
 
 namespace Bit.Api.Utilities
 {
-    public class ModelStateValidationFilterAttribute : ActionFilterAttribute
-    {
-        private readonly bool _publicApi;
+public class ModelStateValidationFilterAttribute : ActionFilterAttribute
+{
+    private readonly bool _publicApi;
 
-        public ModelStateValidationFilterAttribute(bool publicApi)
+    public ModelStateValidationFilterAttribute(bool publicApi)
+    {
+        _publicApi = publicApi;
+    }
+
+    public override void OnActionExecuting(ActionExecutingContext context)
+    {
+        var model = context.ActionArguments.FirstOrDefault(a => a.Key == "model");
+        if(model.Key == "model" && model.Value == null)
         {
-            _publicApi = publicApi;
+            context.ModelState.AddModelError(string.Empty, "Body is empty.");
         }
 
-        public override void OnActionExecuting(ActionExecutingContext context)
+        if(!context.ModelState.IsValid)
         {
-            var model = context.ActionArguments.FirstOrDefault(a => a.Key == "model");
-            if(model.Key == "model" && model.Value == null)
+            if(_publicApi)
             {
-                context.ModelState.AddModelError(string.Empty, "Body is empty.");
+                context.Result = new BadRequestObjectResult(new PublicApi.ErrorResponseModel(context.ModelState));
             }
-
-            if(!context.ModelState.IsValid)
+            else
             {
-                if(_publicApi)
-                {
-                    context.Result = new BadRequestObjectResult(new PublicApi.ErrorResponseModel(context.ModelState));
-                }
-                else
-                {
-                    context.Result = new BadRequestObjectResult(new InternalApi.ErrorResponseModel(context.ModelState));
-                }
+                context.Result = new BadRequestObjectResult(new InternalApi.ErrorResponseModel(context.ModelState));
             }
         }
     }
+}
 }

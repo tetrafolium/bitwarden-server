@@ -2,13 +2,16 @@
 
 namespace Bit.Core.Models.Api.Public
 {
-    public abstract class CollectionBaseModel
-    {
-        /// <summary>
-        /// External identifier for reference or linking this collection to another system.
-        /// </summary>
-        /// <example>external_id_123456</example>
-        [StringLength(300)]
-        public string ExternalId { get; set; }
+public abstract class CollectionBaseModel
+{
+    /// <summary>
+    /// External identifier for reference or linking this collection to another system.
+    /// </summary>
+    /// <example>external_id_123456</example>
+    [StringLength(300)]
+    public string ExternalId {
+        get;
+        set;
     }
+}
 }

@@ -9,44 +9,44 @@ using Quartz;
 
 namespace Bit.Api.Jobs
 {
-    public class JobsHostedService : BaseJobsHostedService
-    {
-        public JobsHostedService(
-            IServiceProvider serviceProvider,
-            ILogger<JobsHostedService> logger,
-            ILogger<JobListener> listenerLogger)
-            : base(serviceProvider, logger, listenerLogger) { }
+public class JobsHostedService : BaseJobsHostedService
+{
+    public JobsHostedService(
+        IServiceProvider serviceProvider,
+        ILogger<JobsHostedService> logger,
+        ILogger<JobListener> listenerLogger)
+        : base(serviceProvider, logger, listenerLogger) { }
 
-        public override async Task StartAsync(CancellationToken cancellationToken)
-        {
-            var everyTopOfTheHourTrigger = TriggerBuilder.Create()
-                .StartNow()
-                .WithCronSchedule("0 0 * * * ?")
-                .Build();
-            var everyTopOfTheSixthHourTrigger = TriggerBuilder.Create()
-                .StartNow()
-                .WithCronSchedule("0 0 */6 * * ?")
-                .Build();
-            var everyTwelfthHourAndThirtyMinutesTrigger = TriggerBuilder.Create()
+    public override async Task StartAsync(CancellationToken cancellationToken)
+    {
+        var everyTopOfTheHourTrigger = TriggerBuilder.Create()
+                                       .StartNow()
+                                       .WithCronSchedule("0 0 * * * ?")
+                                       .Build();
+        var everyTopOfTheSixthHourTrigger = TriggerBuilder.Create()
+                                            .StartNow()
+                                            .WithCronSchedule("0 0 */6 * * ?")
+                                            .Build();
+        var everyTwelfthHourAndThirtyMinutesTrigger = TriggerBuilder.Create()
                 .StartNow()
                 .WithCronSchedule("0 30 */12 * * ?")
                 .Build();
 
-            Jobs = new List<Tuple<Type, ITrigger>>
-            {
-                new Tuple<Type, ITrigger>(typeof(AliveJob), everyTopOfTheHourTrigger),
-                new Tuple<Type, ITrigger>(typeof(ValidateUsersJob), everyTopOfTheSixthHourTrigger),
-                new Tuple<Type, ITrigger>(typeof(ValidateOrganizationsJob), everyTwelfthHourAndThirtyMinutesTrigger)
-            };
-
-            await base.StartAsync(cancellationToken);
-        }
-
-        public static void AddJobsServices(IServiceCollection services)
+        Jobs = new List<Tuple<Type, ITrigger>>
         {
-            services.AddTransient<AliveJob>();
-            services.AddTransient<ValidateUsersJob>();
-            services.AddTransient<ValidateOrganizationsJob>();
-        }
+            new Tuple<Type, ITrigger>(typeof(AliveJob), everyTopOfTheHourTrigger),
+            new Tuple<Type, ITrigger>(typeof(ValidateUsersJob), everyTopOfTheSixthHourTrigger),
+            new Tuple<Type, ITrigger>(typeof(ValidateOrganizationsJob), everyTwelfthHourAndThirtyMinutesTrigger)
+        };
+
+        await base.StartAsync(cancellationToken);
     }
+
+    public static void AddJobsServices(IServiceCollection services)
+    {
+        services.AddTransient<AliveJob>();
+        services.AddTransient<ValidateUsersJob>();
+        services.AddTransient<ValidateOrganizationsJob>();
+    }
+}
 }

@@ -10,76 +10,76 @@ using Newtonsoft.Json.Linq;
 
 namespace Bit.Admin.Controllers
 {
-    public class HomeController : Controller
+public class HomeController : Controller
+{
+    private readonly GlobalSettings _globalSettings;
+    private HttpClient _httpClient = new HttpClient();
+
+    public HomeController(GlobalSettings globalSettings)
     {
-        private readonly GlobalSettings _globalSettings;
-        private HttpClient _httpClient = new HttpClient();
+        _globalSettings = globalSettings;
+    }
 
-        public HomeController(GlobalSettings globalSettings)
+    [Authorize]
+    public IActionResult Index()
+    {
+        return View(new HomeModel
         {
-            _globalSettings = globalSettings;
-        }
+            GlobalSettings = _globalSettings,
+            CurrentVersion = Core.Utilities.CoreHelpers.GetVersion()
+        });
+    }
 
-        [Authorize]
-        public IActionResult Index()
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel
         {
-            return View(new HomeModel
+            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+        });
+    }
+
+    public async Task<IActionResult> GetLatestDockerHubVersion(string repository)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync(
+                               $"https://hub.docker.com/v2/repositories/bitwarden/{repository}/tags/");
+            if(response.IsSuccessStatusCode)
             {
-                GlobalSettings = _globalSettings,
-                CurrentVersion = Core.Utilities.CoreHelpers.GetVersion()
-            });
-        }
-
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel
-            {
-                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-            });
-        }
-
-        public async Task<IActionResult> GetLatestDockerHubVersion(string repository)
-        {
-            try
-            {
-                var response = await _httpClient.GetAsync(
-                $"https://hub.docker.com/v2/repositories/bitwarden/{repository}/tags/");
-                if(response.IsSuccessStatusCode)
+                var json = await response.Content.ReadAsStringAsync();
+                var data = JObject.Parse(json);
+                var results = data["results"] as JArray;
+                foreach(var result in results)
                 {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = JObject.Parse(json);
-                    var results = data["results"] as JArray;
-                    foreach(var result in results)
+                    var name = result["name"].ToString();
+                    if(!string.IsNullOrWhiteSpace(name) && name.Length > 0 && char.IsNumber(name[0]))
                     {
-                        var name = result["name"].ToString();
-                        if(!string.IsNullOrWhiteSpace(name) && name.Length > 0 && char.IsNumber(name[0]))
-                        {
-                            return new JsonResult(name);
-                        }
+                        return new JsonResult(name);
                     }
                 }
             }
-            catch(HttpRequestException) { }
-
-            return new JsonResult("-");
         }
+        catch(HttpRequestException) { }
 
-        public async Task<IActionResult> GetInstalledWebVersion()
-        {
-            try
-            {
-                var response = await _httpClient.GetAsync(
-                    $"{_globalSettings.BaseServiceUri.InternalVault}/version.json");
-                if(response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var data = JObject.Parse(json);
-                    return new JsonResult(data["version"].ToString());
-                }
-            }
-            catch(HttpRequestException) { }
-
-            return new JsonResult("-");
-        }
+        return new JsonResult("-");
     }
+
+    public async Task<IActionResult> GetInstalledWebVersion()
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync(
+                               $"{_globalSettings.BaseServiceUri.InternalVault}/version.json");
+            if(response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var data = JObject.Parse(json);
+                return new JsonResult(data["version"].ToString());
+            }
+        }
+        catch(HttpRequestException) { }
+
+        return new JsonResult("-");
+    }
+}
 }

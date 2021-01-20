@@ -2,12 +2,12 @@
 
 namespace Bit.Api.Utilities
 {
-    public class ApiExplorerGroupConvention : IControllerModelConvention
+public class ApiExplorerGroupConvention : IControllerModelConvention
+{
+    public void Apply(ControllerModel controller)
     {
-        public void Apply(ControllerModel controller)
-        {
-            var controllerNamespace = controller.ControllerType.Namespace;
-            controller.ApiExplorer.GroupName = controllerNamespace.Contains(".Public.") ? "public" : "internal";
-        }
+        var controllerNamespace = controller.ControllerType.Namespace;
+        controller.ApiExplorer.GroupName = controllerNamespace.Contains(".Public.") ? "public" : "internal";
     }
+}
 }

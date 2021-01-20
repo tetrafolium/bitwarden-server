@@ -12,112 +12,112 @@ using Bit.Core.Services;
 
 namespace Bit.Admin.Controllers
 {
-    [Authorize]
-    public class OrganizationsController : Controller
+[Authorize]
+public class OrganizationsController : Controller
+{
+    private readonly IOrganizationRepository _organizationRepository;
+    private readonly IOrganizationUserRepository _organizationUserRepository;
+    private readonly IPaymentService _paymentService;
+    private readonly IApplicationCacheService _applicationCacheService;
+    private readonly GlobalSettings _globalSettings;
+
+    public OrganizationsController(
+        IOrganizationRepository organizationRepository,
+        IOrganizationUserRepository organizationUserRepository,
+        IPaymentService paymentService,
+        IApplicationCacheService applicationCacheService,
+        GlobalSettings globalSettings)
     {
-        private readonly IOrganizationRepository _organizationRepository;
-        private readonly IOrganizationUserRepository _organizationUserRepository;
-        private readonly IPaymentService _paymentService;
-        private readonly IApplicationCacheService _applicationCacheService;
-        private readonly GlobalSettings _globalSettings;
+        _organizationRepository = organizationRepository;
+        _organizationUserRepository = organizationUserRepository;
+        _paymentService = paymentService;
+        _applicationCacheService = applicationCacheService;
+        _globalSettings = globalSettings;
+    }
 
-        public OrganizationsController(
-            IOrganizationRepository organizationRepository,
-            IOrganizationUserRepository organizationUserRepository,
-            IPaymentService paymentService,
-            IApplicationCacheService applicationCacheService,
-            GlobalSettings globalSettings)
+    public async Task<IActionResult> Index(string name = null, string userEmail = null, bool? paid = null,
+                                           int page = 1, int count = 25)
+    {
+        if(page < 1)
         {
-            _organizationRepository = organizationRepository;
-            _organizationUserRepository = organizationUserRepository;
-            _paymentService = paymentService;
-            _applicationCacheService = applicationCacheService;
-            _globalSettings = globalSettings;
+            page = 1;
         }
 
-        public async Task<IActionResult> Index(string name = null, string userEmail = null, bool? paid = null,
-            int page = 1, int count = 25)
+        if(count < 1)
         {
-            if(page < 1)
-            {
-                page = 1;
-            }
-
-            if(count < 1)
-            {
-                count = 1;
-            }
-
-            var skip = (page - 1) * count;
-            var organizations = await _organizationRepository.SearchAsync(name, userEmail, paid, skip, count);
-            return View(new OrganizationsModel
-            {
-                Items = organizations as List<Organization>,
-                Name = string.IsNullOrWhiteSpace(name) ? null : name,
-                UserEmail = string.IsNullOrWhiteSpace(userEmail) ? null : userEmail,
-                Paid = paid,
-                Page = page,
-                Count = count,
-                Action = _globalSettings.SelfHosted ? "View" : "Edit",
-                SelfHosted = _globalSettings.SelfHosted
-            });
+            count = 1;
         }
 
-        public async Task<IActionResult> View(Guid id)
+        var skip = (page - 1) * count;
+        var organizations = await _organizationRepository.SearchAsync(name, userEmail, paid, skip, count);
+        return View(new OrganizationsModel
         {
-            var organization = await _organizationRepository.GetByIdAsync(id);
-            if(organization == null)
-            {
-                return RedirectToAction("Index");
-            }
+            Items = organizations as List<Organization>,
+            Name = string.IsNullOrWhiteSpace(name) ? null : name,
+            UserEmail = string.IsNullOrWhiteSpace(userEmail) ? null : userEmail,
+            Paid = paid,
+            Page = page,
+            Count = count,
+            Action = _globalSettings.SelfHosted ? "View" : "Edit",
+            SelfHosted = _globalSettings.SelfHosted
+        });
+    }
 
-            var users = await _organizationUserRepository.GetManyDetailsByOrganizationAsync(id);
-            return View(new OrganizationViewModel(organization, users));
-        }
-
-        [SelfHosted(NotSelfHostedOnly = true)]
-        public async Task<IActionResult> Edit(Guid id)
+    public async Task<IActionResult> View(Guid id)
+    {
+        var organization = await _organizationRepository.GetByIdAsync(id);
+        if(organization == null)
         {
-            var organization = await _organizationRepository.GetByIdAsync(id);
-            if(organization == null)
-            {
-                return RedirectToAction("Index");
-            }
-
-            var users = await _organizationUserRepository.GetManyDetailsByOrganizationAsync(id);
-            var billingInfo = await _paymentService.GetBillingAsync(organization);
-            return View(new OrganizationEditModel(organization, users, billingInfo, _globalSettings));
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [SelfHosted(NotSelfHostedOnly = true)]
-        public async Task<IActionResult> Edit(Guid id, OrganizationEditModel model)
-        {
-            var organization = await _organizationRepository.GetByIdAsync(id);
-            if(organization == null)
-            {
-                return RedirectToAction("Index");
-            }
-
-            model.ToOrganization(organization);
-            await _organizationRepository.ReplaceAsync(organization);
-            await _applicationCacheService.UpsertOrganizationAbilityAsync(organization);
-            return RedirectToAction("Edit", new { id });
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var organization = await _organizationRepository.GetByIdAsync(id);
-            if(organization != null)
-            {
-                await _organizationRepository.DeleteAsync(organization);
-                await _applicationCacheService.DeleteOrganizationAbilityAsync(organization.Id);
-            }
-
             return RedirectToAction("Index");
         }
+
+        var users = await _organizationUserRepository.GetManyDetailsByOrganizationAsync(id);
+        return View(new OrganizationViewModel(organization, users));
     }
+
+    [SelfHosted(NotSelfHostedOnly = true)]
+    public async Task<IActionResult> Edit(Guid id)
+    {
+        var organization = await _organizationRepository.GetByIdAsync(id);
+        if(organization == null)
+        {
+            return RedirectToAction("Index");
+        }
+
+        var users = await _organizationUserRepository.GetManyDetailsByOrganizationAsync(id);
+        var billingInfo = await _paymentService.GetBillingAsync(organization);
+        return View(new OrganizationEditModel(organization, users, billingInfo, _globalSettings));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [SelfHosted(NotSelfHostedOnly = true)]
+    public async Task<IActionResult> Edit(Guid id, OrganizationEditModel model)
+    {
+        var organization = await _organizationRepository.GetByIdAsync(id);
+        if(organization == null)
+        {
+            return RedirectToAction("Index");
+        }
+
+        model.ToOrganization(organization);
+        await _organizationRepository.ReplaceAsync(organization);
+        await _applicationCacheService.UpsertOrganizationAbilityAsync(organization);
+        return RedirectToAction("Edit", new { id });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var organization = await _organizationRepository.GetByIdAsync(id);
+        if(organization != null)
+        {
+            await _organizationRepository.DeleteAsync(organization);
+            await _applicationCacheService.DeleteOrganizationAbilityAsync(organization.Id);
+        }
+
+        return RedirectToAction("Index");
+    }
+}
 }
