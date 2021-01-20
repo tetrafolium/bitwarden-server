@@ -16,112 +16,112 @@ namespace Bit.Admin
 {
 public class Startup
 {
-    public Startup(IWebHostEnvironment env, IConfiguration configuration)
-    {
-        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
-        Configuration = configuration;
-        Environment = env;
-    }
+public Startup(IWebHostEnvironment env, IConfiguration configuration)
+{
+	CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+	Configuration = configuration;
+	Environment = env;
+}
 
-    public IConfiguration Configuration {
-        get;
-        private set;
-    }
-    public IWebHostEnvironment Environment {
-        get;
-        set;
-    }
+public IConfiguration Configuration {
+	get;
+	private set;
+}
+public IWebHostEnvironment Environment {
+	get;
+	set;
+}
 
-    public void ConfigureServices(IServiceCollection services)
-    {
-        // Options
-        services.AddOptions();
+public void ConfigureServices(IServiceCollection services)
+{
+	// Options
+	services.AddOptions();
 
-        // Settings
-        var globalSettings = services.AddGlobalSettingsServices(Configuration);
-        services.Configure<AdminSettings>(Configuration.GetSection("AdminSettings"));
+	// Settings
+	var globalSettings = services.AddGlobalSettingsServices(Configuration);
+	services.Configure<AdminSettings>(Configuration.GetSection("AdminSettings"));
 
-        // Data Protection
-        services.AddCustomDataProtectionServices(Environment, globalSettings);
+	// Data Protection
+	services.AddCustomDataProtectionServices(Environment, globalSettings);
 
-        // Stripe Billing
-        StripeConfiguration.ApiKey = globalSettings.StripeApiKey;
+	// Stripe Billing
+	StripeConfiguration.ApiKey = globalSettings.StripeApiKey;
 
-        // Repositories
-        services.AddSqlServerRepositories(globalSettings);
+	// Repositories
+	services.AddSqlServerRepositories(globalSettings);
 
-        // Context
-        services.AddScoped<CurrentContext>();
+	// Context
+	services.AddScoped<CurrentContext>();
 
-        // Identity
-        services.AddPasswordlessIdentityServices<ReadOnlyEnvIdentityUserStore>(globalSettings);
-        services.Configure<SecurityStampValidatorOptions>(options =>
-        {
-            options.ValidationInterval = TimeSpan.FromMinutes(5);
-        });
-        if(globalSettings.SelfHosted)
-        {
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.Path = "/admin";
-            });
-        }
+	// Identity
+	services.AddPasswordlessIdentityServices<ReadOnlyEnvIdentityUserStore>(globalSettings);
+	services.Configure<SecurityStampValidatorOptions>(options =>
+			{
+				options.ValidationInterval = TimeSpan.FromMinutes(5);
+			});
+	if(globalSettings.SelfHosted)
+	{
+		services.ConfigureApplicationCookie(options =>
+				{
+					options.Cookie.Path = "/admin";
+				});
+	}
 
-        // Services
-        services.AddBaseServices();
-        services.AddDefaultServices(globalSettings);
+	// Services
+	services.AddBaseServices();
+	services.AddDefaultServices(globalSettings);
 
-        // Mvc
-        services.AddMvc(config =>
-        {
-            config.Filters.Add(new LoggingExceptionHandlerFilterAttribute());
-        });
-        services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+	// Mvc
+	services.AddMvc(config =>
+			{
+				config.Filters.Add(new LoggingExceptionHandlerFilterAttribute());
+			});
+	services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
-        // Jobs service
-        Jobs.JobsHostedService.AddJobsServices(services, globalSettings.SelfHosted);
-        services.AddHostedService<Jobs.JobsHostedService>();
-        if(globalSettings.SelfHosted)
-        {
-            services.AddHostedService<HostedServices.DatabaseMigrationHostedService>();
-        }
-        else
-        {
-            if(CoreHelpers.SettingHasValue(globalSettings.Storage.ConnectionString))
-            {
-                services.AddHostedService<HostedServices.AzureQueueBlockIpHostedService>();
-            }
-            else if(CoreHelpers.SettingHasValue(globalSettings.Amazon?.AccessKeySecret))
-            {
-                services.AddHostedService<HostedServices.AmazonSqsBlockIpHostedService>();
-            }
-        }
-    }
+	// Jobs service
+	Jobs.JobsHostedService.AddJobsServices(services, globalSettings.SelfHosted);
+	services.AddHostedService<Jobs.JobsHostedService>();
+	if(globalSettings.SelfHosted)
+	{
+		services.AddHostedService<HostedServices.DatabaseMigrationHostedService>();
+	}
+	else
+	{
+		if(CoreHelpers.SettingHasValue(globalSettings.Storage.ConnectionString))
+		{
+			services.AddHostedService<HostedServices.AzureQueueBlockIpHostedService>();
+		}
+		else if(CoreHelpers.SettingHasValue(globalSettings.Amazon?.AccessKeySecret))
+		{
+			services.AddHostedService<HostedServices.AmazonSqsBlockIpHostedService>();
+		}
+	}
+}
 
-    public void Configure(
-        IApplicationBuilder app,
-        IWebHostEnvironment env,
-        IHostApplicationLifetime appLifetime,
-        GlobalSettings globalSettings)
-    {
-        app.UseSerilog(env, appLifetime, globalSettings);
+public void Configure(
+	IApplicationBuilder app,
+	IWebHostEnvironment env,
+	IHostApplicationLifetime appLifetime,
+	GlobalSettings globalSettings)
+{
+	app.UseSerilog(env, appLifetime, globalSettings);
 
-        if(globalSettings.SelfHosted)
-        {
-            app.UsePathBase("/admin");
-            app.UseForwardedHeaders(globalSettings);
-        }
+	if(globalSettings.SelfHosted)
+	{
+		app.UsePathBase("/admin");
+		app.UseForwardedHeaders(globalSettings);
+	}
 
-        if(env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-        }
+	if(env.IsDevelopment())
+	{
+		app.UseDeveloperExceptionPage();
+	}
 
-        app.UseStaticFiles();
-        app.UseRouting();
-        app.UseAuthentication();
-        app.UseAuthorization();
-        app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
-    }
+	app.UseStaticFiles();
+	app.UseRouting();
+	app.UseAuthentication();
+	app.UseAuthorization();
+	app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
+}
 }
 }

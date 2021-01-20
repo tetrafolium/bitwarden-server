@@ -2,13 +2,13 @@
 {
 public class OrganizationUserAcceptedViewModel : BaseMailModel
 {
-    public string OrganizationName {
-        get;
-        set;
-    }
-    public string UserEmail {
-        get;
-        set;
-    }
+public string OrganizationName {
+	get;
+	set;
+}
+public string UserEmail {
+	get;
+	set;
+}
 }
 }

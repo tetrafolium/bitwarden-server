@@ -2,9 +2,9 @@
 {
 public class OrganizationUserConfirmedViewModel : BaseMailModel
 {
-    public string OrganizationName {
-        get;
-        set;
-    }
+public string OrganizationName {
+	get;
+	set;
+}
 }
 }

@@ -2,7 +2,7 @@
 {
 public enum ApplicationCacheMessageType : byte
 {
-    UpsertOrganizationAbility = 0,
-    DeleteOrganizationAbility = 1
+	UpsertOrganizationAbility = 0,
+	DeleteOrganizationAbility = 1
 }
 }

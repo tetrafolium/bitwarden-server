@@ -5,6 +5,6 @@ namespace Bit.Core.Services
 {
 public interface IMailDeliveryService
 {
-    Task SendEmailAsync(MailMessage message);
+Task SendEmailAsync(MailMessage message);
 }
 }

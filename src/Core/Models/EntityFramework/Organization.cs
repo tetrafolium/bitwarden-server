@@ -6,30 +6,30 @@ namespace Bit.Core.Models.EntityFramework
 {
 public class Organization : Table.Organization
 {
-    private JsonDocument _twoFactorProvidersJson;
+private JsonDocument _twoFactorProvidersJson;
 
-    public ICollection<Cipher> Ciphers {
-        get;
-        set;
-    }
+public ICollection<Cipher> Ciphers {
+	get;
+	set;
+}
 
-    [IgnoreMap]
-    public JsonDocument TwoFactorProvidersJson
-    {
-        get => _twoFactorProvidersJson;
-        set
-        {
-            TwoFactorProviders = value?.ToString();
-            _twoFactorProvidersJson = value;
-        }
-    }
+[IgnoreMap]
+public JsonDocument TwoFactorProvidersJson
+{
+	get => _twoFactorProvidersJson;
+	set
+	{
+		TwoFactorProviders = value?.ToString();
+		_twoFactorProvidersJson = value;
+	}
+}
 }
 
 public class OrganizationMapperProfile : Profile
 {
-    public OrganizationMapperProfile()
-    {
-        CreateMap<Table.Organization, Organization>().ReverseMap();
-    }
+public OrganizationMapperProfile()
+{
+	CreateMap<Table.Organization, Organization>().ReverseMap();
+}
 }
 }
