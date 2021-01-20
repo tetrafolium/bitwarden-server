@@ -2,21 +2,27 @@
 
 namespace Bit.Core.Models.Mail
 {
-    public class BaseMailModel
+public class BaseMailModel
+{
+    public string SiteName {
+        get;
+        set;
+    }
+    public string WebVaultUrl {
+        get;
+        set;
+    }
+    public string WebVaultUrlHostname
     {
-        public string SiteName { get; set; }
-        public string WebVaultUrl { get; set; }
-        public string WebVaultUrlHostname
+        get
         {
-            get
+            if(Uri.TryCreate(WebVaultUrl, UriKind.Absolute, out Uri uri))
             {
-                if(Uri.TryCreate(WebVaultUrl, UriKind.Absolute, out Uri uri))
-                {
-                    return uri.Host;
-                }
-
-                return WebVaultUrl;
+                return uri.Host;
             }
+
+            return WebVaultUrl;
         }
     }
+}
 }

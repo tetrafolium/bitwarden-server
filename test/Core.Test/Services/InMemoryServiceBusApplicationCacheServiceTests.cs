@@ -6,30 +6,30 @@ using Xunit;
 
 namespace Bit.Core.Test.Services
 {
-    public class InMemoryServiceBusApplicationCacheServiceTests
+public class InMemoryServiceBusApplicationCacheServiceTests
+{
+    private readonly InMemoryServiceBusApplicationCacheService _sut;
+
+    private readonly IOrganizationRepository _organizationRepository;
+    private readonly GlobalSettings _globalSettings;
+
+    public InMemoryServiceBusApplicationCacheServiceTests()
     {
-        private readonly InMemoryServiceBusApplicationCacheService _sut;
+        _organizationRepository = Substitute.For<IOrganizationRepository>();
+        _globalSettings = new GlobalSettings();
 
-        private readonly IOrganizationRepository _organizationRepository;
-        private readonly GlobalSettings _globalSettings;
-
-        public InMemoryServiceBusApplicationCacheServiceTests()
-        {
-            _organizationRepository = Substitute.For<IOrganizationRepository>();
-            _globalSettings = new GlobalSettings();
-
-            _sut = new InMemoryServiceBusApplicationCacheService(
-                _organizationRepository,
-                _globalSettings
-            );
-        }
-
-        // Remove this test when we add actual tests. It only proves that
-        // we've properly constructed the system under test.
-        [Fact(Skip = "Needs additional work")]
-        public void ServiceExists()
-        {
-            Assert.NotNull(_sut);
-        }
+        _sut = new InMemoryServiceBusApplicationCacheService(
+            _organizationRepository,
+            _globalSettings
+        );
     }
+
+    // Remove this test when we add actual tests. It only proves that
+    // we've properly constructed the system under test.
+    [Fact(Skip = "Needs additional work")]
+    public void ServiceExists()
+    {
+        Assert.NotNull(_sut);
+    }
+}
 }

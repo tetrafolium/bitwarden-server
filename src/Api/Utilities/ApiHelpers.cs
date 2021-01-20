@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 
 namespace Bit.Api.Utilities
 {
-    public static class ApiHelpers
+public static class ApiHelpers
+{
+    public async static Task<T> ReadJsonFileFromBody<T>(HttpContext httpContext, IFormFile file, long maxSize = 51200)
     {
-        public async static Task<T> ReadJsonFileFromBody<T>(HttpContext httpContext, IFormFile file, long maxSize = 51200)
+        T obj = default(T);
+        if(file != null && httpContext.Request.ContentLength.HasValue && httpContext.Request.ContentLength.Value <= maxSize)
         {
-            T obj = default(T);
-            if(file != null && httpContext.Request.ContentLength.HasValue && httpContext.Request.ContentLength.Value <= maxSize)
+            try
             {
-                try
-                {
-                    using(var stream = file.OpenReadStream())
+                using(var stream = file.OpenReadStream())
                     using(var reader = new StreamReader(stream))
                     {
                         var s = await reader.ReadToEndAsync();
@@ -23,11 +23,11 @@ namespace Bit.Api.Utilities
                             obj = JsonConvert.DeserializeObject<T>(s);
                         }
                     }
-                }
-                catch { }
             }
-
-            return obj;
+            catch { }
         }
+
+        return obj;
     }
+}
 }

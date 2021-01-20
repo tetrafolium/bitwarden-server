@@ -6,10 +6,10 @@ using System;
 
 namespace Bit.Core.Services
 {
-    public interface ICollectionService
-    {
-        Task SaveAsync(Collection collection, IEnumerable<SelectionReadOnly> groups = null, Guid? assignUserId = null);
-        Task DeleteAsync(Collection collection);
-        Task DeleteUserAsync(Collection collection, Guid organizationUserId);
-    }
+public interface ICollectionService
+{
+    Task SaveAsync(Collection collection, IEnumerable<SelectionReadOnly> groups = null, Guid? assignUserId = null);
+    Task DeleteAsync(Collection collection);
+    Task DeleteUserAsync(Collection collection, Guid organizationUserId);
+}
 }
