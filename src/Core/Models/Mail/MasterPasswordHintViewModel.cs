@@ -2,9 +2,9 @@
 {
 public class MasterPasswordHintViewModel : BaseMailModel
 {
-    public string Hint {
-        get;
-        set;
-    }
+public string Hint {
+	get;
+	set;
+}
 }
 }

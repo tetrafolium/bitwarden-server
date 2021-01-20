@@ -2,13 +2,13 @@
 {
 public class Icon
 {
-    public byte[] Image {
-        get;
-        set;
-    }
-    public string Format {
-        get;
-        set;
-    }
+public byte[] Image {
+	get;
+	set;
+}
+public string Format {
+	get;
+	set;
+}
 }
 }

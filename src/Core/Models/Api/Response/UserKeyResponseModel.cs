@@ -6,20 +6,20 @@ namespace Bit.Core.Models.Api
 {
 public class UserKeyResponseModel : ResponseModel
 {
-    public UserKeyResponseModel(Guid id, string key)
-        : base("userKey")
-    {
-        UserId = id.ToString();
-        PublicKey = key;
-    }
+public UserKeyResponseModel(Guid id, string key)
+	: base("userKey")
+{
+	UserId = id.ToString();
+	PublicKey = key;
+}
 
-    public string UserId {
-        get;
-        set;
-    }
-    public string PublicKey {
-        get;
-        set;
-    }
+public string UserId {
+	get;
+	set;
+}
+public string PublicKey {
+	get;
+	set;
+}
 }
 }

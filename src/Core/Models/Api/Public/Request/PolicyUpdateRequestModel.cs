@@ -6,19 +6,19 @@ namespace Bit.Core.Models.Api.Public
 {
 public class PolicyUpdateRequestModel : PolicyBaseModel
 {
-    public Policy ToPolicy(Guid orgId)
-    {
-        return ToPolicy(new Policy
-        {
-            OrganizationId = orgId
-        });
-    }
+public Policy ToPolicy(Guid orgId)
+{
+	return ToPolicy(new Policy
+			{
+				OrganizationId = orgId
+			});
+}
 
-    public virtual Policy ToPolicy(Policy existingPolicy)
-    {
-        existingPolicy.Enabled = Enabled.GetValueOrDefault();
-        existingPolicy.Data = Data != null ? JsonConvert.SerializeObject(Data) : null;
-        return existingPolicy;
-    }
+public virtual Policy ToPolicy(Policy existingPolicy)
+{
+	existingPolicy.Enabled = Enabled.GetValueOrDefault();
+	existingPolicy.Data = Data != null? JsonConvert.SerializeObject(Data) : null;
+	return existingPolicy;
+}
 }
 }

@@ -4,10 +4,10 @@ namespace Bit.Core.Models.Api
 {
 public class CipherPurgeRequestModel
 {
-    [Required]
-    public string MasterPasswordHash {
-        get;
-        set;
-    }
+[Required]
+public string MasterPasswordHash {
+	get;
+	set;
+}
 }
 }

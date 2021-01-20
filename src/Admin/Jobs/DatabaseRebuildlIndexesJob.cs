@@ -10,21 +10,21 @@ namespace Bit.Admin.Jobs
 {
 public class DatabaseRebuildlIndexesJob : BaseJob
 {
-    private readonly IMaintenanceRepository _maintenanceRepository;
+private readonly IMaintenanceRepository _maintenanceRepository;
 
-    public DatabaseRebuildlIndexesJob(
-        IMaintenanceRepository maintenanceRepository,
-        ILogger<DatabaseRebuildlIndexesJob> logger)
-        : base(logger)
-    {
-        _maintenanceRepository = maintenanceRepository;
-    }
+public DatabaseRebuildlIndexesJob(
+	IMaintenanceRepository maintenanceRepository,
+	ILogger<DatabaseRebuildlIndexesJob> logger)
+	: base(logger)
+{
+	_maintenanceRepository = maintenanceRepository;
+}
 
-    protected async override Task ExecuteJobAsync(IJobExecutionContext context)
-    {
-        _logger.LogInformation(Constants.BypassFiltersEventId, "Execute job task: RebuildIndexesAsync");
-        await _maintenanceRepository.RebuildIndexesAsync();
-        _logger.LogInformation(Constants.BypassFiltersEventId, "Finished job task: RebuildIndexesAsync");
-    }
+protected async override Task ExecuteJobAsync(IJobExecutionContext context)
+{
+	_logger.LogInformation(Constants.BypassFiltersEventId, "Execute job task: RebuildIndexesAsync");
+	await _maintenanceRepository.RebuildIndexesAsync();
+	_logger.LogInformation(Constants.BypassFiltersEventId, "Finished job task: RebuildIndexesAsync");
+}
 }
 }

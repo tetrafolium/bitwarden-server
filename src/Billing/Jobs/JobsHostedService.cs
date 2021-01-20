@@ -13,42 +13,42 @@ namespace Bit.Billing.Jobs
 {
 public class JobsHostedService : BaseJobsHostedService
 {
-    private readonly GlobalSettings _globalSettings;
+private readonly GlobalSettings _globalSettings;
 
-    public JobsHostedService(
-        GlobalSettings globalSettings,
-        IServiceProvider serviceProvider,
-        ILogger<JobsHostedService> logger,
-        ILogger<JobListener> listenerLogger)
-        : base(serviceProvider, logger, listenerLogger) {
-        _globalSettings = globalSettings;
-    }
+public JobsHostedService(
+	GlobalSettings globalSettings,
+	IServiceProvider serviceProvider,
+	ILogger<JobsHostedService> logger,
+	ILogger<JobListener> listenerLogger)
+	: base(serviceProvider, logger, listenerLogger) {
+	_globalSettings = globalSettings;
+}
 
-    public override async Task StartAsync(CancellationToken cancellationToken)
-    {
-        var timeZone = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
-                       TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time") :
-                       TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
-        if(_globalSettings.SelfHosted)
-        {
-            timeZone = TimeZoneInfo.Utc;
-        }
+public override async Task StartAsync(CancellationToken cancellationToken)
+{
+	var timeZone = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+	               TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time") :
+	               TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
+	if(_globalSettings.SelfHosted)
+	{
+		timeZone = TimeZoneInfo.Utc;
+	}
 
-        var everyDayAtNinePmTrigger = TriggerBuilder.Create()
-                                      .StartNow()
-                                      .WithCronSchedule("0 0 21 * * ?", x => x.InTimeZone(timeZone))
-                                      .Build();
+	var everyDayAtNinePmTrigger = TriggerBuilder.Create()
+	                              .StartNow()
+	                              .WithCronSchedule("0 0 21 * * ?", x => x.InTimeZone(timeZone))
+	                              .Build();
 
-        Jobs = new List<Tuple<Type, ITrigger>>();
+	Jobs = new List<Tuple<Type, ITrigger> >();
 
-        // Add jobs here
+	// Add jobs here
 
-        await base.StartAsync(cancellationToken);
-    }
+	await base.StartAsync(cancellationToken);
+}
 
-    public static void AddJobsServices(IServiceCollection services)
-    {
-        // Register jobs here
-    }
+public static void AddJobsServices(IServiceCollection services)
+{
+	// Register jobs here
+}
 }
 }

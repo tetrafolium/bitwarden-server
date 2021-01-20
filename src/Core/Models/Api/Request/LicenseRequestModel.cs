@@ -5,10 +5,10 @@ namespace Bit.Core.Models.Api
 {
 public class LicenseRequestModel
 {
-    [Required]
-    public IFormFile License {
-        get;
-        set;
-    }
+[Required]
+public IFormFile License {
+	get;
+	set;
+}
 }
 }

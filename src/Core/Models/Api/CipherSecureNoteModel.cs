@@ -5,16 +5,17 @@ namespace Bit.Core.Models.Api
 {
 public class CipherSecureNoteModel
 {
-    public CipherSecureNoteModel() { }
+public CipherSecureNoteModel() {
+}
 
-    public CipherSecureNoteModel(CipherSecureNoteData data)
-    {
-        Type = data.Type;
-    }
+public CipherSecureNoteModel(CipherSecureNoteData data)
+{
+	Type = data.Type;
+}
 
-    public SecureNoteType Type {
-        get;
-        set;
-    }
+public SecureNoteType Type {
+	get;
+	set;
+}
 }
 }

@@ -6,20 +6,20 @@ namespace Billing.Controllers
 {
 public class HomeController : Controller
 {
-    [HttpGet("~/alive")]
-    [HttpGet("~/now")]
-    [AllowAnonymous]
-    public DateTime GetAlive()
-    {
-        return DateTime.UtcNow;
-    }
+[HttpGet("~/alive")]
+[HttpGet("~/now")]
+[AllowAnonymous]
+public DateTime GetAlive()
+{
+	return DateTime.UtcNow;
+}
 
-    /*
-    [Authorize]
-    public IActionResult Index()
-    {
-        return View();
-    }
-    */
+/*
+   [Authorize]
+   public IActionResult Index()
+   {
+    return View();
+   }
+ */
 }
 }

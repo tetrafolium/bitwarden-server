@@ -8,37 +8,37 @@ namespace Bit.Core.Test.Services
 {
 public class EventServiceTests
 {
-    private readonly EventService _sut;
+private readonly EventService _sut;
 
-    private readonly IEventWriteService _eventWriteService;
-    private readonly IOrganizationUserRepository _organizationUserRepository;
-    private readonly IApplicationCacheService _applicationCacheService;
-    private readonly CurrentContext _currentContext;
-    private readonly GlobalSettings _globalSettings;
+private readonly IEventWriteService _eventWriteService;
+private readonly IOrganizationUserRepository _organizationUserRepository;
+private readonly IApplicationCacheService _applicationCacheService;
+private readonly CurrentContext _currentContext;
+private readonly GlobalSettings _globalSettings;
 
-    public EventServiceTests()
-    {
-        _eventWriteService = Substitute.For<IEventWriteService>();
-        _organizationUserRepository = Substitute.For<IOrganizationUserRepository>();
-        _applicationCacheService = Substitute.For<IApplicationCacheService>();
-        _currentContext = new CurrentContext();
-        _globalSettings = new GlobalSettings();
+public EventServiceTests()
+{
+	_eventWriteService = Substitute.For<IEventWriteService>();
+	_organizationUserRepository = Substitute.For<IOrganizationUserRepository>();
+	_applicationCacheService = Substitute.For<IApplicationCacheService>();
+	_currentContext = new CurrentContext();
+	_globalSettings = new GlobalSettings();
 
-        _sut = new EventService(
-            _eventWriteService,
-            _organizationUserRepository,
-            _applicationCacheService,
-            _currentContext,
-            _globalSettings
-        );
-    }
+	_sut = new EventService(
+		_eventWriteService,
+		_organizationUserRepository,
+		_applicationCacheService,
+		_currentContext,
+		_globalSettings
+		);
+}
 
-    // Remove this test when we add actual tests. It only proves that
-    // we've properly constructed the system under test.
-    [Fact]
-    public void ServiceExists()
-    {
-        Assert.NotNull(_sut);
-    }
+// Remove this test when we add actual tests. It only proves that
+// we've properly constructed the system under test.
+[Fact]
+public void ServiceExists()
+{
+	Assert.NotNull(_sut);
+}
 }
 }

@@ -4,10 +4,10 @@ namespace Bit.Core.Models.Api
 {
 public class DeleteAccountRequestModel
 {
-    [Required]
-    public string MasterPasswordHash {
-        get;
-        set;
-    }
+[Required]
+public string MasterPasswordHash {
+	get;
+	set;
+}
 }
 }

@@ -5,17 +5,18 @@ namespace Bit.Core.Models.Data
 {
 public class CipherSecureNoteData : CipherData
 {
-    public CipherSecureNoteData() { }
+public CipherSecureNoteData() {
+}
 
-    public CipherSecureNoteData(CipherRequestModel cipher)
-        : base(cipher)
-    {
-        Type = cipher.SecureNote.Type;
-    }
+public CipherSecureNoteData(CipherRequestModel cipher)
+	: base(cipher)
+{
+	Type = cipher.SecureNote.Type;
+}
 
-    public SecureNoteType Type {
-        get;
-        set;
-    }
+public SecureNoteType Type {
+	get;
+	set;
+}
 }
 }

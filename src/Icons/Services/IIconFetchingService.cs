@@ -5,6 +5,6 @@ namespace Bit.Icons.Services
 {
 public interface IIconFetchingService
 {
-    Task<IconResult> GetIconAsync(string domain);
+Task<IconResult> GetIconAsync(string domain);
 }
 }

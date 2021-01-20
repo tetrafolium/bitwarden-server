@@ -5,13 +5,13 @@ namespace Bit.Admin.Models
 {
 public class HomeModel
 {
-    public string CurrentVersion {
-        get;
-        set;
-    }
-    public GlobalSettings GlobalSettings {
-        get;
-        set;
-    }
+public string CurrentVersion {
+	get;
+	set;
+}
+public GlobalSettings GlobalSettings {
+	get;
+	set;
+}
 }
 }

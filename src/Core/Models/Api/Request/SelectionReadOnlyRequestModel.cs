@@ -8,23 +8,23 @@ namespace Bit.Core.Models.Api
 {
 public class SelectionReadOnlyRequestModel
 {
-    [Required]
-    public string Id {
-        get;
-        set;
-    }
-    public bool ReadOnly {
-        get;
-        set;
-    }
+[Required]
+public string Id {
+	get;
+	set;
+}
+public bool ReadOnly {
+	get;
+	set;
+}
 
-    public SelectionReadOnly ToSelectionReadOnly()
-    {
-        return new SelectionReadOnly
-        {
-            Id = new Guid(Id),
-            ReadOnly = ReadOnly
-        };
-    }
+public SelectionReadOnly ToSelectionReadOnly()
+{
+	return new SelectionReadOnly
+	       {
+		       Id = new Guid(Id),
+		       ReadOnly = ReadOnly
+	       };
+}
 }
 }

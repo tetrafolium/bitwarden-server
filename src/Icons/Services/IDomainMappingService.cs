@@ -2,6 +2,6 @@
 {
 public interface IDomainMappingService
 {
-    string MapDomain(string hostname);
+string MapDomain(string hostname);
 }
 }

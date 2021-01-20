@@ -2,6 +2,6 @@
 {
 public static class Constants
 {
-    public const int BypassFiltersEventId = 12482444;
+public const int BypassFiltersEventId = 12482444;
 }
 }

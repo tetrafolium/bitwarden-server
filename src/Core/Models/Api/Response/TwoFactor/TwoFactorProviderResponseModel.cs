@@ -6,53 +6,53 @@ namespace Bit.Core.Models.Api
 {
 public class TwoFactorProviderResponseModel : ResponseModel
 {
-    private const string ResponseObj = "twoFactorProvider";
+private const string ResponseObj = "twoFactorProvider";
 
-    public TwoFactorProviderResponseModel(TwoFactorProviderType type, TwoFactorProvider provider)
-        : base(ResponseObj)
-    {
-        if(provider == null)
-        {
-            throw new ArgumentNullException(nameof(provider));
-        }
+public TwoFactorProviderResponseModel(TwoFactorProviderType type, TwoFactorProvider provider)
+	: base(ResponseObj)
+{
+	if(provider == null)
+	{
+		throw new ArgumentNullException(nameof(provider));
+	}
 
-        Enabled = provider.Enabled;
-        Type = type;
-    }
+	Enabled = provider.Enabled;
+	Type = type;
+}
 
-    public TwoFactorProviderResponseModel(TwoFactorProviderType type, User user)
-        : base(ResponseObj)
-    {
-        if(user == null)
-        {
-            throw new ArgumentNullException(nameof(user));
-        }
+public TwoFactorProviderResponseModel(TwoFactorProviderType type, User user)
+	: base(ResponseObj)
+{
+	if(user == null)
+	{
+		throw new ArgumentNullException(nameof(user));
+	}
 
-        var provider = user.GetTwoFactorProvider(type);
-        Enabled = provider?.Enabled ?? false;
-        Type = type;
-    }
+	var provider = user.GetTwoFactorProvider(type);
+	Enabled = provider?.Enabled ?? false;
+	Type = type;
+}
 
-    public TwoFactorProviderResponseModel(TwoFactorProviderType type, Organization organization)
-        : base(ResponseObj)
-    {
-        if(organization == null)
-        {
-            throw new ArgumentNullException(nameof(organization));
-        }
+public TwoFactorProviderResponseModel(TwoFactorProviderType type, Organization organization)
+	: base(ResponseObj)
+{
+	if(organization == null)
+	{
+		throw new ArgumentNullException(nameof(organization));
+	}
 
-        var provider = organization.GetTwoFactorProvider(type);
-        Enabled = provider?.Enabled ?? false;
-        Type = type;
-    }
+	var provider = organization.GetTwoFactorProvider(type);
+	Enabled = provider?.Enabled ?? false;
+	Type = type;
+}
 
-    public bool Enabled {
-        get;
-        set;
-    }
-    public TwoFactorProviderType Type {
-        get;
-        set;
-    }
+public bool Enabled {
+	get;
+	set;
+}
+public TwoFactorProviderType Type {
+	get;
+	set;
+}
 }
 }

@@ -8,29 +8,29 @@ namespace Bit.Core.Services
 {
 public class AzureQueueEventWriteService : IEventWriteService
 {
-    private readonly QueueClient _queueClient;
+private readonly QueueClient _queueClient;
 
-    private JsonSerializerSettings _jsonSettings = new JsonSerializerSettings
-    {
-        NullValueHandling = NullValueHandling.Ignore
-    };
+private JsonSerializerSettings _jsonSettings = new JsonSerializerSettings
+{
+	NullValueHandling = NullValueHandling.Ignore
+};
 
-    public AzureQueueEventWriteService(
-        GlobalSettings globalSettings)
-    {
-        _queueClient = new QueueClient(globalSettings.Events.ConnectionString, "event");
-    }
+public AzureQueueEventWriteService(
+	GlobalSettings globalSettings)
+{
+	_queueClient = new QueueClient(globalSettings.Events.ConnectionString, "event");
+}
 
-    public async Task CreateAsync(IEvent e)
-    {
-        var json = JsonConvert.SerializeObject(e, _jsonSettings);
-        await _queueClient.SendMessageAsync(json);
-    }
+public async Task CreateAsync(IEvent e)
+{
+	var json = JsonConvert.SerializeObject(e, _jsonSettings);
+	await _queueClient.SendMessageAsync(json);
+}
 
-    public async Task CreateManyAsync(IList<IEvent> e)
-    {
-        var json = JsonConvert.SerializeObject(e, _jsonSettings);
-        await _queueClient.SendMessageAsync(json);
-    }
+public async Task CreateManyAsync(IList<IEvent> e)
+{
+	var json = JsonConvert.SerializeObject(e, _jsonSettings);
+	await _queueClient.SendMessageAsync(json);
+}
 }
 }

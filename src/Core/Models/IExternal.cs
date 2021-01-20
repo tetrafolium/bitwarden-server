@@ -2,8 +2,8 @@
 {
 public interface IExternal
 {
-    string ExternalId {
-        get;
-    }
+string ExternalId {
+	get;
+}
 }
 }

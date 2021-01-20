@@ -13,34 +13,34 @@ namespace Bit.Api.Controllers
 [SelfHosted(NotSelfHostedOnly = true)]
 public class InstallationsController : Controller
 {
-    private readonly IInstallationRepository _installationRepository;
+private readonly IInstallationRepository _installationRepository;
 
-    public InstallationsController(
-        IInstallationRepository installationRepository)
-    {
-        _installationRepository = installationRepository;
-    }
+public InstallationsController(
+	IInstallationRepository installationRepository)
+{
+	_installationRepository = installationRepository;
+}
 
-    [HttpGet("{id}")]
-    [AllowAnonymous]
-    public async Task<InstallationResponseModel> Get(Guid id)
-    {
-        var installation = await _installationRepository.GetByIdAsync(id);
-        if(installation == null)
-        {
-            throw new NotFoundException();
-        }
+[HttpGet("{id}")]
+[AllowAnonymous]
+public async Task<InstallationResponseModel> Get(Guid id)
+{
+	var installation = await _installationRepository.GetByIdAsync(id);
+	if(installation == null)
+	{
+		throw new NotFoundException();
+	}
 
-        return new InstallationResponseModel(installation, false);
-    }
+	return new InstallationResponseModel(installation, false);
+}
 
-    [HttpPost("")]
-    [AllowAnonymous]
-    public async Task<InstallationResponseModel> Post([FromBody] InstallationRequestModel model)
-    {
-        var installation = model.ToInstallation();
-        await _installationRepository.CreateAsync(installation);
-        return new InstallationResponseModel(installation, true);
-    }
+[HttpPost("")]
+[AllowAnonymous]
+public async Task<InstallationResponseModel> Post([FromBody] InstallationRequestModel model)
+{
+	var installation = model.ToInstallation();
+	await _installationRepository.CreateAsync(installation);
+	return new InstallationResponseModel(installation, true);
+}
 }
 }
