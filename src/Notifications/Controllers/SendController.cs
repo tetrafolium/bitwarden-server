@@ -9,36 +9,36 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Bit.Notifications
 {
-    [Authorize("Internal")]
-    public class SendController : Controller
+[Authorize("Internal")]
+public class SendController : Controller
+{
+    private readonly IHubContext<NotificationsHub> _hubContext;
+
+    public SendController(IHubContext<NotificationsHub> hubContext)
     {
-        private readonly IHubContext<NotificationsHub> _hubContext;
+        _hubContext = hubContext;
+    }
 
-        public SendController(IHubContext<NotificationsHub> hubContext)
-        {
-            _hubContext = hubContext;
-        }
+    [HttpGet("~/alive")]
+    [HttpGet("~/now")]
+    [AllowAnonymous]
+    public DateTime GetAlive()
+    {
+        return DateTime.UtcNow;
+    }
 
-        [HttpGet("~/alive")]
-        [HttpGet("~/now")]
-        [AllowAnonymous]
-        public DateTime GetAlive()
+    [HttpPost("~/send")]
+    [SelfHosted(SelfHostedOnly = true)]
+    public async Task PostSend()
+    {
+        using(var reader = new StreamReader(Request.Body, Encoding.UTF8))
         {
-            return DateTime.UtcNow;
-        }
-
-        [HttpPost("~/send")]
-        [SelfHosted(SelfHostedOnly = true)]
-        public async Task PostSend()
-        {
-            using(var reader = new StreamReader(Request.Body, Encoding.UTF8))
+            var notificationJson = await reader.ReadToEndAsync();
+            if(!string.IsNullOrWhiteSpace(notificationJson))
             {
-                var notificationJson = await reader.ReadToEndAsync();
-                if(!string.IsNullOrWhiteSpace(notificationJson))
-                {
-                    await HubHelpers.SendNotificationToHubAsync(notificationJson, _hubContext);
-                }
+                await HubHelpers.SendNotificationToHubAsync(notificationJson, _hubContext);
             }
         }
     }
+}
 }

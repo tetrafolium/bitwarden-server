@@ -4,16 +4,22 @@ using Bit.Core.Enums;
 
 namespace Bit.Core.Models.Api
 {
-    public class UserKeyResponseModel : ResponseModel
+public class UserKeyResponseModel : ResponseModel
+{
+    public UserKeyResponseModel(Guid id, string key)
+        : base("userKey")
     {
-        public UserKeyResponseModel(Guid id, string key)
-            : base("userKey")
-        {
-            UserId = id.ToString();
-            PublicKey = key;
-        }
-
-        public string UserId { get; set; }
-        public string PublicKey { get; set; }
+        UserId = id.ToString();
+        PublicKey = key;
     }
+
+    public string UserId {
+        get;
+        set;
+    }
+    public string PublicKey {
+        get;
+        set;
+    }
+}
 }

@@ -6,30 +6,30 @@ using Xunit;
 
 namespace Bit.Core.Test.Services
 {
-    public class AzureQueuePushNotificationServiceTests
+public class AzureQueuePushNotificationServiceTests
+{
+    private readonly AzureQueuePushNotificationService _sut;
+
+    private readonly GlobalSettings _globalSettings;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public AzureQueuePushNotificationServiceTests()
     {
-        private readonly AzureQueuePushNotificationService _sut;
+        _globalSettings = new GlobalSettings();
+        _httpContextAccessor = Substitute.For<IHttpContextAccessor>();
 
-        private readonly GlobalSettings _globalSettings;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public AzureQueuePushNotificationServiceTests()
-        {
-            _globalSettings = new GlobalSettings();
-            _httpContextAccessor = Substitute.For<IHttpContextAccessor>();
-
-            _sut = new AzureQueuePushNotificationService(
-                _globalSettings,
-                _httpContextAccessor
-            );
-        }
-
-        // Remove this test when we add actual tests. It only proves that
-        // we've properly constructed the system under test.
-        [Fact(Skip = "Needs additional work")]
-        public void ServiceExists()
-        {
-            Assert.NotNull(_sut);
-        }
+        _sut = new AzureQueuePushNotificationService(
+            _globalSettings,
+            _httpContextAccessor
+        );
     }
+
+    // Remove this test when we add actual tests. It only proves that
+    // we've properly constructed the system under test.
+    [Fact(Skip = "Needs additional work")]
+    public void ServiceExists()
+    {
+        Assert.NotNull(_sut);
+    }
+}
 }

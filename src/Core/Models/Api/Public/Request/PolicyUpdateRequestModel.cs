@@ -4,21 +4,21 @@ using Newtonsoft.Json;
 
 namespace Bit.Core.Models.Api.Public
 {
-    public class PolicyUpdateRequestModel : PolicyBaseModel
+public class PolicyUpdateRequestModel : PolicyBaseModel
+{
+    public Policy ToPolicy(Guid orgId)
     {
-        public Policy ToPolicy(Guid orgId)
+        return ToPolicy(new Policy
         {
-            return ToPolicy(new Policy
-            {
-                OrganizationId = orgId
-            });
-        }
-
-        public virtual Policy ToPolicy(Policy existingPolicy)
-        {
-            existingPolicy.Enabled = Enabled.GetValueOrDefault();
-            existingPolicy.Data = Data != null ? JsonConvert.SerializeObject(Data) : null;
-            return existingPolicy;
-        }
+            OrganizationId = orgId
+        });
     }
+
+    public virtual Policy ToPolicy(Policy existingPolicy)
+    {
+        existingPolicy.Enabled = Enabled.GetValueOrDefault();
+        existingPolicy.Data = Data != null ? JsonConvert.SerializeObject(Data) : null;
+        return existingPolicy;
+    }
+}
 }

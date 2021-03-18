@@ -2,10 +2,13 @@
 
 namespace Bit.Billing.Models
 {
-    public class LoginModel
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+public class LoginModel
+{
+    [Required]
+    [EmailAddress]
+    public string Email {
+        get;
+        set;
     }
+}
 }
