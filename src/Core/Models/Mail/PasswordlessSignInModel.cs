@@ -2,9 +2,9 @@
 {
 public class PasswordlessSignInModel
 {
-    public string Url {
-        get;
-        set;
-    }
+public string Url {
+	get;
+	set;
+}
 }
 }

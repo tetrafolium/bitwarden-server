@@ -16,80 +16,80 @@ namespace Bit.Billing
 {
 public class Startup
 {
-    public Startup(IConfiguration configuration)
-    {
-        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
-        Configuration = configuration;
-    }
+public Startup(IConfiguration configuration)
+{
+	CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+	Configuration = configuration;
+}
 
-    public IConfiguration Configuration {
-        get;
-    }
+public IConfiguration Configuration {
+	get;
+}
 
-    public void ConfigureServices(IServiceCollection services)
-    {
-        // Options
-        services.AddOptions();
+public void ConfigureServices(IServiceCollection services)
+{
+	// Options
+	services.AddOptions();
 
-        // Settings
-        var globalSettings = services.AddGlobalSettingsServices(Configuration);
-        services.Configure<BillingSettings>(Configuration.GetSection("BillingSettings"));
+	// Settings
+	var globalSettings = services.AddGlobalSettingsServices(Configuration);
+	services.Configure<BillingSettings>(Configuration.GetSection("BillingSettings"));
 
-        // Stripe Billing
-        StripeConfiguration.ApiKey = globalSettings.StripeApiKey;
+	// Stripe Billing
+	StripeConfiguration.ApiKey = globalSettings.StripeApiKey;
 
-        // Repositories
-        services.AddSqlServerRepositories(globalSettings);
+	// Repositories
+	services.AddSqlServerRepositories(globalSettings);
 
-        // PayPal Client
-        services.AddSingleton<Utilities.PayPalIpnClient>();
+	// PayPal Client
+	services.AddSingleton<Utilities.PayPalIpnClient>();
 
-        // BitPay Client
-        services.AddSingleton<BitPayClient>();
+	// BitPay Client
+	services.AddSingleton<BitPayClient>();
 
-        // Context
-        services.AddScoped<CurrentContext>();
+	// Context
+	services.AddScoped<CurrentContext>();
 
-        // Identity
-        services.AddCustomIdentityServices(globalSettings);
-        //services.AddPasswordlessIdentityServices<ReadOnlyDatabaseIdentityUserStore>(globalSettings);
+	// Identity
+	services.AddCustomIdentityServices(globalSettings);
+	//services.AddPasswordlessIdentityServices<ReadOnlyDatabaseIdentityUserStore>(globalSettings);
 
-        // Services
-        services.AddBaseServices();
-        services.AddDefaultServices(globalSettings);
+	// Services
+	services.AddBaseServices();
+	services.AddDefaultServices(globalSettings);
 
-        services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+	services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-        // Mvc
-        services.AddMvc(config =>
-        {
-            config.Filters.Add(new LoggingExceptionHandlerFilterAttribute());
-        });
-        services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+	// Mvc
+	services.AddMvc(config =>
+			{
+				config.Filters.Add(new LoggingExceptionHandlerFilterAttribute());
+			});
+	services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
-        // Jobs service, uncomment when we have some jobs to run
-        // Jobs.JobsHostedService.AddJobsServices(services);
-        // services.AddHostedService<Jobs.JobsHostedService>();
-    }
+	// Jobs service, uncomment when we have some jobs to run
+	// Jobs.JobsHostedService.AddJobsServices(services);
+	// services.AddHostedService<Jobs.JobsHostedService>();
+}
 
-    public void Configure(
-        IApplicationBuilder app,
-        IWebHostEnvironment env,
-        IHostApplicationLifetime appLifetime,
-        GlobalSettings globalSettings)
-    {
-        app.UseSerilog(env, appLifetime, globalSettings);
+public void Configure(
+	IApplicationBuilder app,
+	IWebHostEnvironment env,
+	IHostApplicationLifetime appLifetime,
+	GlobalSettings globalSettings)
+{
+	app.UseSerilog(env, appLifetime, globalSettings);
 
-        if(env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-        }
+	if(env.IsDevelopment())
+	{
+		app.UseDeveloperExceptionPage();
+	}
 
-        app.UseStaticFiles();
-        app.UseRouting();
-        app.UseAuthentication();
-        app.UseAuthorization();
-        app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
-    }
+	app.UseStaticFiles();
+	app.UseRouting();
+	app.UseAuthentication();
+	app.UseAuthorization();
+	app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
+}
 }
 }

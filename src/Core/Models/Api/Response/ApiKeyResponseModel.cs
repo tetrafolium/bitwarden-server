@@ -5,19 +5,19 @@ namespace Bit.Core.Models.Api
 {
 public class ApiKeyResponseModel : ResponseModel
 {
-    public ApiKeyResponseModel(Organization organization, string obj = "apiKey")
-        : base(obj)
-    {
-        if(organization == null)
-        {
-            throw new ArgumentNullException(nameof(organization));
-        }
-        ApiKey = organization.ApiKey;
-    }
+public ApiKeyResponseModel(Organization organization, string obj = "apiKey")
+	: base(obj)
+{
+	if(organization == null)
+	{
+		throw new ArgumentNullException(nameof(organization));
+	}
+	ApiKey = organization.ApiKey;
+}
 
-    public string ApiKey {
-        get;
-        set;
-    }
+public string ApiKey {
+	get;
+	set;
+}
 }
 }

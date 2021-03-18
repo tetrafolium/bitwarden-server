@@ -6,19 +6,19 @@ namespace Bit.Core.Models.Api
 {
 public class IapCheckRequestModel : IValidatableObject
 {
-    [Required]
-    public PaymentMethodType? PaymentMethodType {
-        get;
-        set;
-    }
+[Required]
+public PaymentMethodType? PaymentMethodType {
+	get;
+	set;
+}
 
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-    {
-        if(PaymentMethodType != Enums.PaymentMethodType.AppleInApp)
-        {
-            yield return new ValidationResult("Not a supported in-app purchase payment method.",
-                                              new string[] { nameof(PaymentMethodType) });
-        }
-    }
+public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+{
+	if(PaymentMethodType != Enums.PaymentMethodType.AppleInApp)
+	{
+		yield return new ValidationResult("Not a supported in-app purchase payment method.",
+		                                  new string[] { nameof(PaymentMethodType) });
+	}
+}
 }
 }

@@ -5,38 +5,38 @@ namespace Bit.Core.Models.Table
 {
 public class Group : ITableObject<Guid>, IExternal
 {
-    public Guid Id {
-        get;
-        set;
-    }
-    public Guid OrganizationId {
-        get;
-        set;
-    }
-    public string Name {
-        get;
-        set;
-    }
-    public bool AccessAll {
-        get;
-        set;
-    }
-    public string ExternalId {
-        get;
-        set;
-    }
-    public DateTime CreationDate {
-        get;
-        internal set;
-    } = DateTime.UtcNow;
-    public DateTime RevisionDate {
-        get;
-        internal set;
-    } = DateTime.UtcNow;
+public Guid Id {
+	get;
+	set;
+}
+public Guid OrganizationId {
+	get;
+	set;
+}
+public string Name {
+	get;
+	set;
+}
+public bool AccessAll {
+	get;
+	set;
+}
+public string ExternalId {
+	get;
+	set;
+}
+public DateTime CreationDate {
+	get;
+	internal set;
+} = DateTime.UtcNow;
+public DateTime RevisionDate {
+	get;
+	internal set;
+} = DateTime.UtcNow;
 
-    public void SetNewId()
-    {
-        Id = CoreHelpers.GenerateComb();
-    }
+public void SetNewId()
+{
+	Id = CoreHelpers.GenerateComb();
+}
 }
 }

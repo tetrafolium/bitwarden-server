@@ -4,10 +4,10 @@ namespace Bit.Core.Models.Api
 {
 public class OrganizationDeleteRequestModel
 {
-    [Required]
-    public string MasterPasswordHash {
-        get;
-        set;
-    }
+[Required]
+public string MasterPasswordHash {
+	get;
+	set;
+}
 }
 }
