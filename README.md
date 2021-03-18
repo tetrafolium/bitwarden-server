@@ -13,7 +13,7 @@
   </a>
 </p>
 
--------------------
+---
 
 The Bitwarden Server project contains the APIs, database, and other core infrastructure items needed for the "backend" of all bitwarden client applications.
 
@@ -26,14 +26,14 @@ The server project is written in C# using .NET Core with ASP.NET Core. The datab
 - [.NET Core 2.x SDK](https://www.microsoft.com/net/download/core)
 - [SQL Server 2017](https://docs.microsoft.com/en-us/sql/index)
 
-*These dependencies are free to use.*
+_These dependencies are free to use._
 
 ### Recommended Development Tooling
 
 - [Visual Studio](https://www.visualstudio.com/vs/) (Windows and macOS)
 - [Visual Studio Code](https://code.visualstudio.com/) (other)
 
-*These tools are free to use.*
+_These tools are free to use._
 
 ### API
 
@@ -74,7 +74,7 @@ Full documentation for deploying Bitwarden with Docker can be found in our help 
 - [Docker](https://www.docker.com/community-edition#/download)
 - [Docker Compose](https://docs.docker.com/compose/install/) (already included with some Docker installations)
 
-*These dependencies are free to use.*
+_These dependencies are free to use._
 
 ### Linux & macOS
 
