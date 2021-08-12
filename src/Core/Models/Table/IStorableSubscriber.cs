@@ -1,5 +1,5 @@
 ﻿namespace Bit.Core.Models.Table
 {
-    public interface IStorableSubscriber : IStorable, ISubscriber
-    { }
+public interface IStorableSubscriber : IStorable, ISubscriber
+{ }
 }
