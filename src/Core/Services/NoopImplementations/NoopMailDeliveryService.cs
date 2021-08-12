@@ -5,9 +5,9 @@ namespace Bit.Core.Services
 {
 public class NoopMailDeliveryService : IMailDeliveryService
 {
-    public Task SendEmailAsync(MailMessage message)
-    {
-        return Task.FromResult(0);
-    }
+public Task SendEmailAsync(MailMessage message)
+{
+	return Task.FromResult(0);
+}
 }
 }

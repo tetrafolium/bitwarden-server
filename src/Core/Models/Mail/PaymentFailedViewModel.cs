@@ -2,13 +2,13 @@
 {
 public class PaymentFailedViewModel : BaseMailModel
 {
-    public decimal Amount {
-        get;
-        set;
-    }
-    public bool MentionInvoices {
-        get;
-        set;
-    }
+public decimal Amount {
+	get;
+	set;
+}
+public bool MentionInvoices {
+	get;
+	set;
+}
 }
 }

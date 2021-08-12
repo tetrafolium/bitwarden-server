@@ -4,9 +4,9 @@ namespace Bit.Core.Repositories
 {
 public interface IMaintenanceRepository
 {
-    Task UpdateStatisticsAsync();
-    Task DisableCipherAutoStatsAsync();
-    Task RebuildIndexesAsync();
-    Task DeleteExpiredGrantsAsync();
+Task UpdateStatisticsAsync();
+Task DisableCipherAutoStatsAsync();
+Task RebuildIndexesAsync();
+Task DeleteExpiredGrantsAsync();
 }
 }
